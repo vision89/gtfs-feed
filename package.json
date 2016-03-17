@@ -1,0 +1,27 @@
+{
+  "name": "gtfs-feed",
+  "version": "0.0.1",
+  "description": "An element that takes in a gtfs feed and returns json",
+  "main": "dist/gtfs-feed.html",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.11.1",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-cleanhtml": "^1.0.1",
+    "gulp-crisper": "^1.0.0",
+    "gulp-rimraf": "^0.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-vulcanize": "^6.1.0",
+    "run-sequence": "^1.1.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dustin Gulley dlgulley411@gmail.com",
+  "license": "BSD-3-Clause"
+}
