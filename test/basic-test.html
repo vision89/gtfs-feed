@@ -17,16 +17,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../web-component-tester/browser.js"></script>
 
     <!-- Step 1: import the element to test -->
-    <link rel="import" href="../gtfs-feed.html">
+    <link rel="import" href="../dist/gtfs-feed.html">
   </head>
   <body>
 
     <!-- You can use the document as a place to set up your fixtures. -->
     <test-fixture id="gtfs-feed-fixture">
       <template>
-        <gtfs-feed>
-          <h2>gtfs-feed</h2>
-        </gtfs-feed>
+        <gtfs-feed id="feed" files="[[files]]" xml="[[xml]]" json="{{json}}" on-error="gtfsError"></gtfs-feed>
       </template>
     </test-fixture>
 
@@ -36,33 +34,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var myEl;
 
         setup(function() {
+
           myEl = fixture('gtfs-feed-fixture');
+          
         });
 
-        test('defines the "author" property', function() {
-          assert.equal(myEl.author.name, 'Dimitri Glazkov');
-          assert.equal(myEl.author.image, 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg');
+        test('sets the "files" property', function() {
+          myEl.files = ['./gtfs-files/calendar.txt'];
+          assert.equal(myEl.files[0], './gtfs-files/calendar.txt');
         });
 
-        test('says hello', function() {
-          assert.equal(myEl.sayHello(), 'gtfs-feed says, Hello World!');
+        test('parse the files property', function(done) {
 
-          var greetings = myEl.sayHello('greetings Earthlings');
-          assert.equal(greetings, 'gtfs-feed says, greetings Earthlings');
-        });
+          myEl.addEventListener('json-updated', function(event) {
 
-        test('fires lasers', function(done) {
-          myEl.addEventListener('gtfs-feed-lasers', function(event) {
-            assert.equal(event.detail.sound, 'Pew pew!');
-            done();
+            assert.isArray(myEl.json.calendar);
+            assert.equal(myEl.json.calendar[0].service_id, 4929);
+
+            return done();
+
           });
-          myEl.fireLasers();
+
+          myEl.files = ['./gtfs-files/calendar.txt'];
+
+          myEl.parseFiles();
+
         });
 
-        test('distributed children', function() {
-          var els = myEl.getContentChildren();
-          assert.equal(els.length, 1, 'one distributed node');
-          assert.equal(els[0], myEl.querySelector('h2'), 'content distributed correctly');
+        test('parse the xml property', function() {
+
+          myEl.addEventListener('json-updated', function(done) {
+
+            //assert.isArray(myEl.json.);
+            //assert.equal(myEl.json.);
+
+            return done();
+
+          });
+
+          myEl.xml = '<RTT><AgencyList><Agency Name="AC Transit" HasDirection="True" Mode="Bus"></Agency><Agency Name="BART" HasDirection="False" Mode="Rail"></Agency><Agency Name="Caltrain" HasDirection="True" Mode="Rail"></Agency><Agency Name="Dumbarton Express" HasDirection="True" Mode="Bus"></Agency><Agency Name="LAVTA" HasDirection="True" Mode="Bus"></Agency><Agency Name="Marin Transit" HasDirection="True" Mode="Bus"></Agency><Agency Name="SamTrans" HasDirection="True" Mode="Bus"></Agency><Agency Name="Santa Rosa CityBus" HasDirection="True" Mode="Bus"></Agency><Agency Name="SF-MUNI" HasDirection="True" Mode="Bus"></Agency><Agency Name="Tri Delta Transit" HasDirection="True" Mode="Bus"></Agency><Agency Name="Vine (Napa County)" HasDirection="True" Mode="Bus"></Agency><Agency Name="VTA" HasDirection="True" Mode="Bus"></Agency><Agency Name="WESTCAT " HasDirection="True" Mode="Bus"></Agency></AgencyList></RTT>';
+
         });
 
       });

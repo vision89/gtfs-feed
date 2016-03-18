@@ -99,7 +99,7 @@ gulp.task('dist-js', function() {
     .pipe(uglify().on('error', function(e){
             console.log('Uglify Error: ', e);
          }))
-    .pipe(gulp.dest('temp'));
+    .pipe(gulp.dest('dist'));
 
 });
 

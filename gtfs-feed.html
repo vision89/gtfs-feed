@@ -197,7 +197,7 @@ Example:
 
         var that = this;
         var tally = 0;
-        var total = that.files.length - 1;
+        var total = that.files.length;
         that.set( 'json', Object.create(null) );
 
         try {
@@ -221,6 +221,7 @@ Example:
               this.csv = Papa.parse(url, {
               download: true,
               header: true,
+              skipEmptyLines: true,
               before: function(url, inputElem)
                 {
                   // executed before parsing each file begins;
@@ -281,34 +282,22 @@ Example:
 
         var that = this;
 
-        that.set( 'json', xmlToJSON.parseString(that.xml) );
+        var vals = xmlToJSON.parseString(that.xml);
 
-        for (var property in that.json) {
+        that.set( 'json', Object.create(null));
 
-          if (that.json.hasOwnProperty(property)) {
+        var updated = false;
 
-            var isGTFS = false;
+        if(vals.RTT && vals.RTT.length > 0 && vals.RTT[0].AgencyList && vals.RTT[0].AgencyList[0] && vals.RTT[0].AgencyList[0].Agency) {
+            
+          that.set('json.agencyList', vals.RTT[0].AgencyList[0].Agency);
+          var updated = true;
 
-            for(var i = 0; i < fileNames.length; ++i) {
+        }
 
-              if(property.toLowerCase() === fileNames[i].prop) {
+        if(updated) {
 
-                isGTFS = true;
-                break;
-
-              }
-
-            }
-
-            if(!isGTFS) {
-
-              that.fire('error', 'XML contains nont GTFS data - deleting');
-
-              delete that.json[property];
-              
-            }
-
-          }
+          that.fire('json-updated');
 
         }
 
