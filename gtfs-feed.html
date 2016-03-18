@@ -10,18 +10,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="./bower_components/polymer/polymer.html">
 <script src="./bower_components/papaparse/papaparse.min.js"></script>
+<script src="./bower_components/xmlToJSON.js/lib/xmlToJSON.js"></script>
 
 <!--
-An element providing a solution to no problem in particular.
+An element that parses files to json if they match the gtfs spec, and will parse xml to json
 
 Example:
 
-    <gtfs-feed></gtfs-feed>
+    <gtfs-feed files=[[files]] json="{{gtfs}}" auto-parse="true"></gtfs-feed>
 
 Example:
 
-    <gtfs-feed>
-      <h2>Hello gtfs-feed</h2>
+    <gtfs-feed xml=[[xml]] json="{{gtfs}}" auto-parse="true">
     </gtfs-feed>
 
 @demo demo/index.html
@@ -144,21 +144,56 @@ Example:
           value: Object.create(null),
           notify: true
 
+        },
+
+        /**
+         * XML to parse as json
+         * @type {String}
+         */
+        xml: {
+
+          type: String,
+          value: '',
+          notify: false,
+          observe: '_tryParseXML'
+
         }
 
       },
 
+      /**
+       * Parses files if autoParse is on
+       * 
+       */
       _tryParse: function() {
 
         if(this.autoParse && this.files.length > 0) {
 
-          this.parse();
+          this.parseFiles();
 
         }
 
       },
 
-      parse: function() {
+      /**
+       * Parses xml if autoParse is on
+       * 
+       */
+      _tryParseXML: function() {
+
+        if(this.autoParse && this.xml) {
+
+          this.parseXML();
+
+        }
+
+      },
+
+      /**
+       * Parse files into gtfs json
+       * 
+       */
+      parseFiles: function() {
 
         var that = this;
         var tally = 0;
@@ -233,6 +268,47 @@ Example:
         } catch( err ) {
 
           that.fire('error', err);
+
+        }
+
+      },
+
+      /**
+       * Parse xml to json
+       * 
+       */
+      parseXML: function() {
+
+        var that = this;
+
+        that.set( 'json', xmlToJSON.parseString(that.xml) );
+
+        for (var property in that.json) {
+
+          if (that.json.hasOwnProperty(property)) {
+
+            var isGTFS = false;
+
+            for(var i = 0; i < fileNames.length; ++i) {
+
+              if(property.toLowerCase() === fileNames[i].prop) {
+
+                isGTFS = true;
+                break;
+
+              }
+
+            }
+
+            if(!isGTFS) {
+
+              that.fire('error', 'XML contains nont GTFS data - deleting');
+
+              delete that.json[property];
+              
+            }
+
+          }
 
         }
 
