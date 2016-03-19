@@ -8,6 +8,22 @@ var rimraf = 		require('gulp-rimraf');
 var runSequence = 	require('run-sequence');
 var sourcemaps = 	require('gulp-sourcemaps');
 var browserSync = 	require('browser-sync').create();
+var polybuild = 	require('polybuild');
+
+/********************
+	Polybuild
+*********************/
+gulp.task('polybuild-dev', function() {
+	return gulp.src('./gtfs-feed.html')
+		.pipe(polybuild())
+		.pipe(gulp.dest('dev'));
+});
+
+gulp.task('polybuild-dist', function() {
+	return gulp.src('./gtfs-feed.html')
+		.pipe(polybuild({maximumCrush: true}))
+		.pipe(gulp.dest('dist'));
+});
 
 /********************
 	Vulcanize
@@ -118,31 +134,15 @@ gulp.task('serve', function() {
 /********************
 	Tasks
 *********************/
-gulp.task('dev', ['temp-clean', 'dev-clean'], function(cb) {
+gulp.task('dev', ['dev-clean'], function(cb) {
 
-	runSequence(['vulcanize'], function() {
-
-		runSequence(['dev-html-minify', 'dev-js'], function() {
-
-			runSequence(['temp-clean'], cb);
-
-		});
-
-	});	
+	runSequence(['polybuild-dev'], cb);	
 
 });
 
 gulp.task('dist', ['temp-clean', 'dist-clean'], function(cb) {
 
-	runSequence(['vulcanize'], function() {
-
-		runSequence(['dist-html-minify', 'dist-js'], function() {
-
-			runSequence(['temp-clean'], cb);
-
-		});
-
-	});
+	runSequence(['polybuild-dist'], cb);
 
 });
 

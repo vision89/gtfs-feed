@@ -1,6 +1,6 @@
 {
   "name": "gtfs-feed",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An element that takes in a gtfs feed and returns json",
   "main": "dist/gtfs-feed.html",
   "directories": {
@@ -17,6 +17,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
     "gulp-vulcanize": "^6.1.0",
+    "polybuild": "^1.1.0",
     "run-sequence": "^1.1.5"
   },
   "scripts": {
