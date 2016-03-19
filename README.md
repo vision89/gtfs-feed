@@ -1,5 +1,7 @@
 # gtfs-feed
 
+## Still under development DO NOT USE!
+
 An element to parse gtfs data files and return them as json data
 
 ## How to install
