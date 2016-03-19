@@ -8067,22 +8067,24 @@ else if (typeof define === "function" && define.amd) define(function() {return x
 
         var that = this;
 
-        var vals = xmlToJSON.parseString(that.xml);
+        try {
 
-        that.set( 'json', Object.create(null));
+          var vals = xmlToJSON.parseString(that.xml);
 
-        var updated = false;
+          that.set( 'json', Object.create(null));
 
-        if(vals.RTT && vals.RTT.length > 0 && vals.RTT[0].AgencyList && vals.RTT[0].AgencyList[0] && vals.RTT[0].AgencyList[0].Agency) {
-            
-          that.set('json.agencyList', vals.RTT[0].AgencyList[0].Agency);
-          var updated = true;
+          var updated = false;
 
-        }
+          if(vals.RTT && vals.RTT.length > 0 && vals.RTT[0].AgencyList && vals.RTT[0].AgencyList.length > 0 && vals.RTT[0].AgencyList[0] && vals.RTT[0].AgencyList[0].Agency) {
+              
+            that.set('json.agencyList', vals.RTT[0].AgencyList[0].Agency);
+            that.fire('json-updated');
 
-        if(updated) {
+          }
 
-          that.fire('json-updated');
+        } catch(err) {
+
+          that.fire('error', err);
 
         }
 

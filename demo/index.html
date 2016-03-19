@@ -37,8 +37,252 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.files = [
         './gtfs-files/calendar.txt'
       ];
-
+      /**
       app.xml = '<RTT><AgencyList><Agency Name="AC Transit" HasDirection="True" Mode="Bus"></Agency><Agency Name="BART" HasDirection="False" Mode="Rail"></Agency><Agency Name="Caltrain" HasDirection="True" Mode="Rail"></Agency><Agency Name="Dumbarton Express" HasDirection="True" Mode="Bus"></Agency><Agency Name="LAVTA" HasDirection="True" Mode="Bus"></Agency><Agency Name="Marin Transit" HasDirection="True" Mode="Bus"></Agency><Agency Name="SamTrans" HasDirection="True" Mode="Bus"></Agency><Agency Name="Santa Rosa CityBus" HasDirection="True" Mode="Bus"></Agency><Agency Name="SF-MUNI" HasDirection="True" Mode="Bus"></Agency><Agency Name="Tri Delta Transit" HasDirection="True" Mode="Bus"></Agency><Agency Name="Vine (Napa County)" HasDirection="True" Mode="Bus"></Agency><Agency Name="VTA" HasDirection="True" Mode="Bus"></Agency><Agency Name="WESTCAT " HasDirection="True" Mode="Bus"></Agency></AgencyList></RTT>';
+      **/
+
+      /**
+      app.xml = '<RTT>' +
+        '<AgencyList>' +
+        '<Agency Name="AC Transit" HasDirection="True" Mode="Bus">' +
+        '<RouteList>' +
+        '<Route Name="1" Code="1">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Bay Fair BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="Berkeley BART">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="11" Code="11">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="East" Name="Dimond District">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="West" Name="Piedmont">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="12" Code="12">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="North" Name="Berkeley BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="South" Name="Downtown Oakland">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="14" Code="14">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="West" Name="Downtown Oakland">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="East" Name="Fruitvale BART">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="18" Code="18">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Montclair">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="University Village Albany">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="1R" Code="1R">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Bay Fair BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="Downtown Oakland">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="20" Code="20">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="East" Name="Dimond District">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="West" Name="Downtown Oakland">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="200 Union City Bart-Newpark Mall-Fremont Bar" Code="200">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Fremont BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="Union City BART">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="21" Code="21">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="East" Name="Dimond District">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="West" Name="Oakland Airport">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="210" Code="210">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Ohlone College">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="Union Landing Shopping Center">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="212" Code="212">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="North" Name="Fremont BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="South" Name="NewPark Mall">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="215" Code="215">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="North" Name="Fremont BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="South" Name="Northwestern Polytechnic University">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="216" Code="216">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Ohlone College Newark Campus">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="Union City BART">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '</RouteList>' +
+        '</Agency>' +
+
+        '</AgencyList>' +
+        '</RTT>';
+        **/
+
+      
+      app.xml = '<RTT>' +
+        '<AgencyList>' +
+        '<Agency Name="AC Transit" HasDirection="True" Mode="Bus">' +
+        '<RouteList>' +
+        '<Route Name="1" Code="1">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="South" Name="Bay Fair BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="North" Name="Berkeley BART">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="11" Code="11">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="East" Name="Dimond District">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="West" Name="Piedmont">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="12" Code="12">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="North" Name="Berkeley BART">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="South" Name="Downtown Oakland">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '<Route Name="14" Code="14">' +
+        '<RouteDirectionList>' +
+        '<RouteDirection Code="West" Name="Downtown Oakland">' +
+        '</RouteDirection>' +
+
+        '<RouteDirection Code="East" Name="Fruitvale BART">' +
+        '</RouteDirection>' +
+
+        '</RouteDirectionList>' +
+        '</Route>' +
+
+        '</RouteList>' +
+        '</Agency>' +
+
+        '<Agency Name="BART" HasDirection="False" Mode="Rail">' +
+        '<RouteList>' +
+        '<Route Name="Daly City" Code="747">' +
+        '</Route>' +
+
+        '<Route Name="Dublin/Pleasanton" Code="920">' +
+        '</Route>' +
+
+        '<Route Name="Fremont" Code="917">' +
+        '</Route>' +
+
+        '<Route Name="Millbrae" Code="764">' +
+        '</Route>' +
+
+        '<Route Name="Pittsburg/Bay Point" Code="908">' +
+        '</Route>' +
+
+        '<Route Name="Pleasant Hill" Code="1568">' +
+        '</Route>' +
+
+        '<Route Name="Richmond" Code="237">' +
+        '</Route>' +
+
+        '<Route Name="SF Airport" Code="722">' +
+        '</Route>' +
+
+        '<Route Name="SF Airport then Millbrae" Code="1561">' +
+        '</Route>' +
+
+        '</RouteList>' +
+        '</Agency>' +
+
+        '</AgencyList>' +
+        '</RTT>';
+      
 
       app.updatedJson = function() {
 
