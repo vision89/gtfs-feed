@@ -1,6 +1,6 @@
 {
   "name": "gtfs-feed",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An element that takes in a gtfs feed and returns json",
   "main": "dist/gtfs-feed.html",
   "directories": {
