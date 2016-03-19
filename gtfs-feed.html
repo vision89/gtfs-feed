@@ -262,6 +262,10 @@ Example:
                 }
               });
 
+            } else {
+
+              that.fire('error', 'File does not conform to gtfs standard');
+
             }
 
           });

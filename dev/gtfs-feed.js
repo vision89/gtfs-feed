@@ -8047,6 +8047,10 @@ else if (typeof define === "function" && define.amd) define(function() {return x
                 }
               });
 
+            } else {
+
+              that.fire('error', 'File does not conform to gtfs standard');
+
             }
 
           });

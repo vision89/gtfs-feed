@@ -77,6 +77,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         });
 
+        test('parse the files improperty', function(done) {
+
+          myEl.addEventListener('error', function(event) {
+
+            assert.isUndefined(myEl.json.calendar_error);
+
+            return done();
+
+          });
+
+          myEl.files = ['./gtfs-files/calendar_error.txt'];
+
+          myEl.parseFiles();
+
+        });
+
       });
     </script>
 
