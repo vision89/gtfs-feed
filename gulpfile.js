@@ -28,7 +28,7 @@ gulp.task('polybuild-dist', function() {
 /********************
 	Vulcanize
 *********************/
-gulp.task('vulcanize', function () {
+var vulcanizeTask = function (dir) {
 
 	return gulp.src('./gtfs-feed.html')
 		.pipe(vulcanize({
@@ -40,9 +40,20 @@ gulp.task('vulcanize', function () {
 			console.log('Vulcanize: ', err);
 
 		}))
-		.pipe(crisper())
-		.pipe(gulp.dest('temp'));
+		.pipe(htmlmin())
+		.pipe(gulp.dest(dir));
 	
+};
+
+gulp.task('dev-vulcanize', function() {
+
+	return vulcanizeTask('dev');
+
+});
+gulp.task('dist-vulcanize', function() {
+
+	vulcanizeTask('dist');
+
 });
 
 /********************
@@ -81,7 +92,7 @@ gulp.task('temp-clean', function() {
 *******************/
 var minHtmlTask = function(dir) {
 
-	return gulp.src('./temp/gtfs-feed.html')
+	return gulp.src('./gtfs-feed.html')
 		.pipe(htmlmin())
 		.pipe(gulp.dest(dir));
 
@@ -104,14 +115,14 @@ gulp.task('dist-html-minify', function() {
 *******************/
 gulp.task('dev-js', function() {
 
-    gulp.src(['./temp/gtfs-feed.js'])
+    gulp.src(['./gtfs-feed.js'])
     .pipe(gulp.dest('dev'));
 
 });
 
 gulp.task('dist-js', function() {
 
-    gulp.src(['./temp/gtfs-feed.js'])
+    gulp.src(['./gtfs-feed.js'])
     .pipe(uglify().on('error', function(e){
             console.log('Uglify Error: ', e);
          }))
@@ -134,16 +145,32 @@ gulp.task('serve', function() {
 /********************
 	Tasks
 *********************/
-gulp.task('dev', ['dev-clean'], function(cb) {
-
-	runSequence(['polybuild-dev'], cb);	
-
-});
-
-gulp.task('dist', ['temp-clean', 'dist-clean'], function(cb) {
-
-	runSequence(['polybuild-dist'], cb);
-
-});
+ gulp.task('dev', ['temp-clean', 'dev-clean'], function(cb) {
+ 
+ 	runSequence(['dev-html-minify'], function() {
+ 
+ 		runSequence(['dev-js'], function() {
+ 
+ 			runSequence(['temp-clean'], cb);
+ 
+ 		});
+ 
+ 	});	
+ 
+ });
+ 
+ gulp.task('dist', ['temp-clean', 'dist-clean'], function(cb) {
+ 
+ 	runSequence(['dist-html-minify'], function() {
+ 
+ 		runSequence(['dist-js'], function() {
+ 
+ 			runSequence(['temp-clean'], cb);
+ 
+ 		});
+ 
+ 	});
+ 
+ });
 
 gulp.task('default', ['dev']);
