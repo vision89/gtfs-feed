@@ -36,8 +36,8 @@
       prop: 'fare_attributes'
     },
     {
-      file: 'fare_attributes.txt',
-      prop: 'fare_attributes'
+      file: 'fare_rules.txt',
+      prop: 'fare_rules'
     },
     {
       file: 'shapes.txt',
