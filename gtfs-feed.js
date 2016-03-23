@@ -156,7 +156,7 @@
 
       try {
 
-        this.files.forEach(function(url) {
+        that.files.forEach(function(url) {
 
           var prop = '';
 
@@ -172,7 +172,7 @@
 
           if(prop) {
 
-            this.csv = Papa.parse(url, {
+            that.csv = Papa.parse(url, {
             download: true,
             header: true,
             skipEmptyLines: true,
