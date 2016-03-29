@@ -22,9 +22,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <p>An example of <code>&lt;gtfs-feed&gt;</code>:</p>
 
-      <gtfs-feed id="feed" files="[[files]]" on-json-updated="updatedJson" on-error="gtfsError"></gtfs-feed>
+      <gtfs-feed id="feed" files="[[files]]"></gtfs-feed>
 
-      <gtfs-feed id="feed2" xml="[[xml]]" on-json-updated="updatedJsonB" on-error="gtfsErrorB"></gtfs-feed>
+      <gtfs-feed id="feed2" xml="[[xml]]"></gtfs-feed>
 
     </template>
 
@@ -284,36 +284,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '</RTT>';
       
 
-      app.updatedJson = function() {
-
-        console.log('JSON: ', app.$.feed.json);
-
-      };
-
-      app.gtfsError = function(e) {
-
-        console.log('Error: ', e);
-
-      };
-
-      app.updatedJsonB = function() {
-
-        console.log('XML-JSON: ', app.$.feed2.json);
-
-      };
-
-      app.gtfsErrorB = function(e) {
-
-        console.log('Error: ', e);
-
-      };
-
       window.addEventListener('WebComponentsReady', function(e) {
         // imports are loaded and elements have been registered
         
-        app.$.feed.parseFiles();
+        app.$.feed.parseFiles().then(function() {
 
-        app.$.feed2.parseXML();
+            console.log('JSON: ', app.$.feed.json);
+
+        }).catch(function(err) {
+
+            console.log('Error: ', err);
+
+        });
+
+        app.$.feed2.parseXML().then(function() {
+
+            console.log('XML-JSON: ', app.$.feed2.json);
+
+        }).catch(function(err) {
+
+            console.log('Error: ', err);
+
+        });
 
       });
 

@@ -62,18 +62,6 @@
     is: 'gtfs-feed',
 
     properties: {
-
-      /**
-       * If set to true parse will automatically be called when files are updated
-       * @type {Object}
-       */
-      autoParse: {
-
-        type: Boolean,
-        value: false,
-        notify: false
-
-      },
       
       /**
        * The list of gtfs files
@@ -83,8 +71,7 @@
 
         type: Array,
         value: [],
-        notify: false,
-        observe: '_tryParse'
+        notify: false
 
       },
 
@@ -108,36 +95,7 @@
 
         type: String,
         value: '',
-        notify: false,
-        observe: '_tryParseXML'
-
-      }
-
-    },
-
-    /**
-     * Parses files if autoParse is on
-     * 
-     */
-    _tryParse: function() {
-
-      if(this.autoParse && this.files.length > 0) {
-
-        this.parseFiles();
-
-      }
-
-    },
-
-    /**
-     * Parses xml if autoParse is on
-     * 
-     */
-    _tryParseXML: function() {
-
-      if(this.autoParse && this.xml) {
-
-        this.parseXML();
+        notify: false
 
       }
 
@@ -154,81 +112,85 @@
       var total = that.files.length;
       that.set( 'json', Object.create(null) );
 
-      try {
+      return new Promise(function(resolve, reject) {
 
-        that.files.forEach(function(url) {
+        try {
 
-          var prop = '';
+          that.files.forEach(function(url) {
 
-          for(var i = 0; i < fileNames.length; ++i) {
+            var prop = '';
 
-            if(url.endsWith(fileNames[i].file)) {
+            for(var i = 0; i < fileNames.length; ++i) {
 
-              prop = fileNames[i].prop;
+              if(url.endsWith(fileNames[i].file)) {
+
+                prop = fileNames[i].prop;
+
+              }
 
             }
 
-          }
+            if(prop) {
 
-          if(prop) {
+              that.csv = Papa.parse(url, {
+              download: true,
+              header: true,
+              skipEmptyLines: true,
+              before: function(url, inputElem)
+                {
+                  // executed before parsing each file begins;
+                  // what you return here controls the flow
+                },
+                error: function(err, file, inputElem, reason)
+                {
+                  // executed if an error occurs while loading the file,
+                  // or if before callback aborted for some reason
+                  
+                  //Notify the user of the error
+                  that.fire('error', err); 
 
-            that.csv = Papa.parse(url, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            before: function(url, inputElem)
-              {
-                // executed before parsing each file begins;
-                // what you return here controls the flow
-              },
-              error: function(err, file, inputElem, reason)
-              {
-                // executed if an error occurs while loading the file,
-                // or if before callback aborted for some reason
-                
-                //Notify the user of the error
-                that.fire('error', err); 
+                  //Still counts against our files
+                  ++tally;
 
-                //Still counts against our files
-                ++tally;
+                  //If this is the last file alert the parent
+                  if(tally === total) {
 
-                //If this is the last file alert the parent
-                if(tally === total) {
+                    return reject(err);
 
-                  that.fire('json-updated');
+                  }
+
+                },
+                complete: function(results)
+                {
+                  // executed after all files are complete
+                  that.set( 'json.' + prop, results.data );
+
+                  //If this is the last file alert the parent
+                  ++tally;
+                  if(tally === total) {
+
+                    return resolve();
+
+                  }
 
                 }
+              });
 
-              },
-              complete: function(results)
-              {
-                // executed after all files are complete
-                that.set( 'json.' + prop, results.data );
+            } else {
 
-                //If this is the last file alert the parent
-                ++tally;
-                if(tally === total) {
+              return reject('File does not conform to gtfs standard');
 
-                  that.fire('json-updated');
+            }
 
-                }
+          });
 
-              }
-            });
+        } catch( err ) {
 
-          } else {
+          return reject(err);
 
-            that.fire('error', 'File does not conform to gtfs standard');
+        }
 
-          }
-
-        });
-
-      } catch( err ) {
-
-        that.fire('error', err);
-
-      }
+      });
 
     },
 
@@ -240,26 +202,29 @@
 
       var that = this;
 
-      try {
+      return new Promise(function(resolve, reject) {
 
-        var vals = xmlToJSON.parseString(that.xml);
+        try {
 
-        that.set( 'json', Object.create(null));
+          var vals = xmlToJSON.parseString(that.xml);
 
-        var updated = false;
+          that.set( 'json', Object.create(null));
 
-        if(vals.RTT && vals.RTT.length > 0 && vals.RTT[0].AgencyList && vals.RTT[0].AgencyList.length > 0 && vals.RTT[0].AgencyList[0] && vals.RTT[0].AgencyList[0].Agency) {
-            
-          that.set('json.agencyList', vals.RTT[0].AgencyList[0].Agency);
-          that.fire('json-updated');
+          var updated = false;
+
+          if(vals.RTT && vals.RTT.length > 0 && vals.RTT[0].AgencyList && vals.RTT[0].AgencyList.length > 0 && vals.RTT[0].AgencyList[0] && vals.RTT[0].AgencyList[0].Agency) {
+              
+            return resolve(that.set('json.agencyList', vals.RTT[0].AgencyList[0].Agency));
+
+          }
+
+        } catch(err) {
+
+          return reject(err);
 
         }
 
-      } catch(err) {
-
-        that.fire('error', err);
-
-      }
+      });
 
     },
 
