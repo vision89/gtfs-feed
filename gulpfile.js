@@ -7,7 +7,6 @@ var rjs = 			require('gulp-requirejs');
 var rimraf = 		require('gulp-rimraf');
 var runSequence = 	require('run-sequence');
 var sourcemaps = 	require('gulp-sourcemaps');
-var browserSync = 	require('browser-sync').create();
 var polybuild = 	require('polybuild');
 
 /********************
@@ -128,18 +127,6 @@ gulp.task('dist-js', function() {
          }))
     .pipe(gulp.dest('dist'));
 
-});
-
-/******************
-	Serve
-*******************/
-gulp.task('serve', function() {
-  browserSync.init({
-        server: {
-            baseDir: "temp"
-        },
-        port: 8080
-    });
 });
 
 /********************

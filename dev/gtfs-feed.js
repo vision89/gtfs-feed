@@ -85,18 +85,6 @@
         value: Object.create(null),
         notify: true
 
-      },
-
-      /**
-       * XML to parse as json
-       * @type {String}
-       */
-      xml: {
-
-        type: String,
-        value: '',
-        notify: false
-
       }
 
     },
@@ -185,40 +173,6 @@
           });
 
         } catch( err ) {
-
-          return reject(err);
-
-        }
-
-      });
-
-    },
-
-    /**
-     * Parse xml to json
-     * 
-     */
-    parseXML: function() {
-
-      var that = this;
-
-      return new Promise(function(resolve, reject) {
-
-        try {
-
-          var vals = xmlToJSON.parseString(that.xml);
-
-          that.set( 'json', Object.create(null));
-
-          var updated = false;
-
-          if(vals.RTT && vals.RTT.length > 0 && vals.RTT[0].AgencyList && vals.RTT[0].AgencyList.length > 0 && vals.RTT[0].AgencyList[0] && vals.RTT[0].AgencyList[0].Agency) {
-              
-            return resolve(that.set('json.agencyList', vals.RTT[0].AgencyList[0].Agency));
-
-          }
-
-        } catch(err) {
 
           return reject(err);
 
